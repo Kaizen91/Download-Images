@@ -20,10 +20,12 @@ while not url.endswith('#'):
 
     #Find the url of the comic image
     comicElem = soup.select('#comic img')
+    logging.debug(comicElem)
     if comicElem == []:
        print('Could not find image')
     else:
-        comicUrl = comicElem[0].get('src')
+        comicUrl = 'http:' + comicElem[0].get('src')
+        logging.debug(comicUrl)
         #Download the image
         print('Downloading image %s' % comicUrl)
         res = requests.get(comicUrl,headers=headers)
@@ -31,6 +33,7 @@ while not url.endswith('#'):
 
     #save the image to xkcd
     imageFile = open(os.path.join('xkcd',os.path.basename(comicUrl)),'wb')
+    logging.debug(imageFile)
     for chunk in res.iter_content(100000):
         imageFile.write(chunk)
     imageFile.close()
